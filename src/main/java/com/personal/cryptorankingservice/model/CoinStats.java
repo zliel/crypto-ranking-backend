@@ -2,12 +2,16 @@ package com.personal.cryptorankingservice.model;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class CoinStats {
-    private int total;
-    private int totalCoins;
-    private int totalMarkets;
-    private int totalExchanges;
-    private int totalMarketCap;
-    private double total24hVolume;
+    private float total;
+    private float referenceCurrencyRate;
+    private float totalCoins;
+    private float totalMarkets;
+    private float totalExchanges;
+    private String totalMarketCap;
+    private String total24hVolume;
 }
