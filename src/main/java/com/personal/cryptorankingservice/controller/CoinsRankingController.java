@@ -31,11 +31,9 @@ public class CoinsRankingController {
     public List<HistoryData> getCoinHistoryPerTimePeriod(@PathVariable String symbol, @PathVariable String period) {
         List<Sample.Value> coinsTimeSeriesData = service.getCoinHistoryFromRedisByTimePeriod(symbol, period);
 
-        List<HistoryData> coinHistory = coinsTimeSeriesData.stream().map(value ->
+        return coinsTimeSeriesData.stream().map(value ->
             new HistoryData(ConversionUtil.convertUnixTimeToDate(value.getTimestamp()), ConversionUtil.round(value.getValue(), 2)
         ))
-        .collect(Collectors.toList());
-
-        return coinHistory;
+            .collect(Collectors.toList());
     }
 }
