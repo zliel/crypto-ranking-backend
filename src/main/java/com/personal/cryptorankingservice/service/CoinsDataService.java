@@ -48,7 +48,13 @@ public class CoinsDataService {
         List<CoinInfo> allCoins = getAllCoinsFromRedisJSON();
         allCoins.forEach(coin -> {
             timePeriods.forEach(period -> {
-                getCoinHistoryByTimePeriod(coin, period);
+                try {
+                    getCoinHistoryByTimePeriod(coin, period);
+                    Thread.sleep(250);
+                } catch (InterruptedException ie) {
+                    throw new RuntimeException(ie);
+                }
+
             });
         });
     }
@@ -83,8 +89,8 @@ public class CoinsDataService {
 
     public List<Sample.Value> getCoinHistoryFromRedisByTimePeriod(String symbol, String timePeriod) {
         Map<String, Object> timeSeriesInfo = redisTimeSeries.info(symbol + ":" + timePeriod);
-        Long firstTimeStamp = Long.valueOf(timeSeriesInfo.get("firstTimeStamp").toString());
-        Long lastTimeStamp = Long.valueOf(timeSeriesInfo.get("lastTimeStamp").toString());
+        Long firstTimeStamp = Long.valueOf(timeSeriesInfo.get("firstTimestamp").toString());
+        Long lastTimeStamp = Long.valueOf(timeSeriesInfo.get("lastTimestamp").toString());
 
         List<Sample.Value> coinTimeSeriesData = getTimeSeriesDataForCoin(symbol, timePeriod, firstTimeStamp, lastTimeStamp);
         return coinTimeSeriesData;
